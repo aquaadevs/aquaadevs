@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aqua | Roblox Scripter</title>
+  <meta name="description" content="Aqua's Roblox scripting portfolio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070707;
+      --panel: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #f5f5f5;
+      --muted: #a1a1aa;
+      --accent: #8b5cf6;
+      --accent2: #22d3ee;
+      --max: 1120px;
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(139,92,246,0.14), transparent 22%),
+        radial-gradient(circle at 90% 20%, rgba(34,211,238,0.10), transparent 20%),
+        linear-gradient(180deg, #040404 0%, #070707 100%);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.22;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
+      z-index: 0;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,7,7,0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 13px;
+      height: 13px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(139,92,246,0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: #d4d4d8;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: white;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .hero {
+      padding: 68px 0 22px;
+    }
+
+    .hero-card,
+    .panel,
+    .work-card,
+    .info-card,
+    .contact-card,
+    .stat {
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.025));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.32);
+    }
+
+    .hero-card {
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(139,92,246,0.12), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(34,211,238,0.08), transparent 24%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #e4e4e7;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -2px;
+    }
+
+    .type-line {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      border-right: 2px solid rgba(255,255,255,0.85);
+      vertical-align: bottom;
+      animation: aquaTyping 0.9s steps(4, end) forwards, aquaBlink 0.7s step-end infinite;
+    }
+
+    @keyframes aquaTyping {
+      from { width: 0; }
+      to { width: 4ch; }
+    }
+
+    @keyframes aquaBlink {
+      50% { border-color: transparent; }
+    }
+
+    .subline {
+      color: #d4d4d8;
+      font-size: 1rem;
+      margin-bottom: 18px;
+    }
+
+    .subline span {
+      color: white;
+      font-weight: 700;
+    }
+
+    .hero-copy {
+      max-width: 62ch;
+      margin: 0 auto 22px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .btn,
+    .mini-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: white;
+      font-weight: 700;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover,
+    .mini-btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #6d28d9);
+      border-color: transparent;
+      box-shadow: 0 12px 26px rgba(139,92,246,0.22);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .stat { padding: 16px; text-align: left; }
+    .stat h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .stat p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 0.92rem; }
+
+    .section { padding: 26px 0; }
+
+    .panel {
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: -1px;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 650px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .grid-3,
+    .work-grid,
+    .contact-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-3,
+    .work-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .contact-grid { grid-template-columns: 1.1fr 0.9fr; }
+
+    .info-card,
+    .contact-card,
+    .work-card {
+      padding: 18px;
+      min-width: 0;
+    }
+
+    .info-card h3,
+    .contact-card h3,
+    .work-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+      line-height: 1.25;
+    }
+
+    .info-card p,
+    .contact-card p,
+    .work-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.96rem;
+    }
+
+    .work-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .work-media {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        linear-gradient(135deg, rgba(139,92,246,0.22), rgba(34,211,238,0.12)),
+        rgba(255,255,255,0.03);
+      cursor: pointer;
+    }
+
+    .video-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      opacity: 0;
+      transition: opacity 0.22s ease;
+      pointer-events: none;
+    }
+
+    .work-card.playing .video-frame { opacity: 1; }
+
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.34));
+      transition: opacity 0.22s ease;
+    }
+
+    .work-card.playing .work-overlay { opacity: 0.08; }
+
+    .play-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.16);
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .work-body {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-row,
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-pill,
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #e4e4e7;
+      font-size: 0.78rem;
+    }
+
+    .contact-lines {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .contact-line {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #e4e4e7;
+      font-size: 0.92rem;
+    }
+
+    .cta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #e4e4e7;
+      font-size: 0.84rem;
+      margin-top: 14px;
+    }
+
+    .cta-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .copy-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(18px);
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(10,10,10,0.94);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: white;
+      box-shadow: 0 20px 46px rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s ease;
+      z-index: 240;
+      font-size: 0.92rem;
+    }
+
+    .copy-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,0.84);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      padding: 18px;
+    }
+
+    .video-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-modal-card {
+      width: min(1180px, 100%);
+      aspect-ratio: 16 / 9;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: #050505;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+      position: relative;
+      transform: translateY(12px) scale(0.985);
+      transition: transform 0.28s ease;
+    }
+
+    .video-modal.open .video-modal-card { transform: translateY(0) scale(1); }
+    .video-modal iframe { width: 100%; height: 100%; border: 0; }
+
+    .video-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.52);
+      color: white;
+      cursor: pointer;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(.2,.65,.2,1), transform 0.8s cubic-bezier(.2,.65,.2,1);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      color: #71717a;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .stats,
+      .grid-3,
+      .work-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .hero-card,
+      .panel {
+        padding: 24px;
+      }
+
+      .hero-subtitle {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container { width: calc(100% - 20px); }
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 0;
+      }
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .hero { padding-top: 28px; }
+      .hero-card,
+      .panel,
+      .work-card,
+      .info-card,
+      .contact-card,
+      .stat { padding: 18px; }
+      h1 {
+        font-size: clamp(2.5rem, 12vw, 3.5rem);
+        letter-spacing: -1.8px;
+      }
+      .type-line {
+        white-space: normal;
+        width: auto;
+        border-right: none;
+        animation: fadeUp 0.8s ease both;
+      }
+      .hero-subtitle {
+        gap: 8px;
+      }
+      .shuffle-wrap { width: 160px; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; }
+      .section-head h2 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+      .video-modal { padding: 10px; }
+      .video-modal-card { border-radius: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { width: calc(100% - 16px); }
+      .tag,
+      .nav-links a,
+      .meta-pill { font-size: 0.8rem; }
+      .play-badge { width: 48px; height: 48px; }
+      .shuffle-wrap { width: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <div class="nav-wrap">
+    <div class="container nav">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span>Aqua.dev</span>
+      </div>
+      <div class="nav-links">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#work" class="nav-link">My Past Work</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero container">
+    <div class="hero-card">
+      <div class="hero-inner">
+        <div class="eyebrow">Roblox Developer • Luau Specialist</div>
+        <h1><span class="type-line">Aqua</span></h1>
+        <div class="subline">19 year old Roblox scripter <span>Luau systems</span> built to feel smooth and polished</div>
+        <p class="hero-copy">
+          I make Roblox systems that feel clean and good to use. Mostly gameplay stuff, UI logic, saving systems, economy features, and fixing old scripts that need to be cleaned up.
+          <br><br>
+          I care a lot about how things feel in game, not just whether they work. I try to keep my code organized and easy to build on later.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Commission Me</a>
+          <a href="#work" class="btn">View My Work</a>
+        </div>
+        <div class="stats">
+          <div class="stat reveal">
+            <h3>Systems</h3>
+            <p>Gameplay systems, progression, shops, utilities, and custom features.</p>
+          </div>
+          <div class="stat reveal">
+            <h3>Polish</h3>
+            <p>Smoother UI, better flow, less clunky feeling, and cleaner results.</p>
+          </div>
+          <div class="stat reveal">
+            <h3>Contact</h3>
+            <p>Commissions and project talk go through Discord DMs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>About</h2>
+            <p>A bit more about the kind of work I do.</p>
+          </div>
+          <div class="grid-3">
+            <div class="info-card reveal">
+              <h3>Gameplay Systems</h3>
+              <p>Custom mechanics, progression, abilities, interactions, and server client systems that feel responsive.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Economy and Data</h3>
+              <p>Shops, currencies, inventories, rewards, and saving systems for games that need proper structure.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Fixes and Cleanup</h3>
+              <p>Bug fixing, cleaning old code, improving performance, and making systems easier to work with.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>Skills</h2>
+            <p>The main things I usually work on.</p>
+          </div>
+          <div class="grid-3">
+            <div class="info-card reveal">
+              <h3>System Design</h3>
+              <p>Planning out feature logic, structure, and how everything connects without making it messy later.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>UI and Interaction</h3>
+              <p>Menus, buttons, flow, inventory systems, shop systems, and making UI feel smoother in game.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Optimization</h3>
+              <p>Making scripts run better, fixing unnecessary overhead, and improving the general feel of a system.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>My Past Work</h2>
+            <p>Put your actual systems here with your real YouTube previews.</p>
+          </div>
+          <div class="work-grid">
+            <article class="work-card reveal" data-video-id="dQw4w9WgXcQ">
+              <div class="work-media">
+                <iframe class="video-frame" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="work-overlay"><div class="play-badge">▶</div></div>
+              </div>
+              <div class="work-body">
+                <h3>Advanced System</h3>
+                <p>Good quality system built for smoother gameplay, solid performance, and a cleaner player experience.</p>
+                <div class="meta-row">
+                  <span class="meta-pill">Luau</span>
+                  <span class="meta-pill">System Design</span>
+                  <span class="meta-pill">UI Flow</span>
+                </div>
+                <a class="mini-btn" href="https://youtube.com/" target="_blank" rel="noreferrer">YouTube Link</a>
+              </div>
+            </article>
+
+            <article class="work-card reveal" data-video-id="dQw4w9WgXcQ">
+              <div class="work-media">
+                <iframe class="video-frame" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="work-overlay"><div class="play-badge">▶</div></div>
+              </div>
+              <div class="work-body">
+                <h3>Advanced System</h3>
+                <p>Good quality system built for smoother gameplay, solid performance, and a cleaner player experience.</p>
+                <div class="meta-row">
+                  <span class="meta-pill">Optimization</span>
+                  <span class="meta-pill">Polish</span>
+                  <span class="meta-pill">Gameplay</span>
+                </div>
+                <a class="mini-btn" href="https://youtube.com/" target="_blank" rel="noreferrer">YouTube Link</a>
+              </div>
+            </article>
+
+            <article class="work-card reveal" data-video-id="dQw4w9WgXcQ">
+              <div class="work-media">
+                <iframe class="video-frame" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="work-overlay"><div class="play-badge">▶</div></div>
+              </div>
+              <div class="work-body">
+                <h3>Advanced System</h3>
+                <p>Good quality system built for smoother gameplay, solid performance, and a cleaner player experience.</p>
+                <div class="meta-row">
+                  <span class="meta-pill">DataStore</span>
+                  <span class="meta-pill">Roblox Studio</span>
+                  <span class="meta-pill">Performance</span>
+                </div>
+                <a class="mini-btn" href="https://youtube.com/" target="_blank" rel="noreferrer">YouTube Link</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>Experience</h2>
+            <p>The kind of work I usually end up doing.</p>
+          </div>
+          <div class="grid-3">
+            <div class="info-card reveal">
+              <h3>Custom Systems</h3>
+              <p>From scratch systems for combat, progression, inventories, shops, or whatever the game needs.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Reworks</h3>
+              <p>Taking older messy systems and rebuilding them into something cleaner and easier to manage.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Polish</h3>
+              <p>Fixing bugs, making stuff feel smoother, and improving the overall quality of the game.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>Workflow</h2>
+            <p>How I usually work on commissions.</p>
+          </div>
+          <div class="grid-3">
+            <div class="info-card reveal">
+              <h3>1. Planning</h3>
+              <p>You explain what you need and I break it down into something clear I can build properly.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>2. Building</h3>
+              <p>I script the system, test it, and update you as progress is made.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>3. Receive</h3>
+              <p>You get the finished system after payment, ready to put into your game.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>Why Me</h2>
+            <p>What I try to do better than average scripting work.</p>
+          </div>
+          <div class="grid-3">
+            <div class="info-card reveal">
+              <h3>Cleaner Code</h3>
+              <p>I try to keep things readable and structured instead of throwing everything together.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Better Feel</h3>
+              <p>I care about whether the system actually feels good in game, not just whether it works.</p>
+            </div>
+            <div class="info-card reveal">
+              <h3>Direct Communication</h3>
+              <p>I keep things simple and clear so there is less wasted time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>Start a Project</h2>
+            <p>If you want to work with me, send me the idea, references, and what you want made.</p>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-card reveal">
+              <h3>Hire Aqua</h3>
+              <p>I take on systems, feature builds, reworks, and polish work. Main goal is clean code and a result that feels good in game.</p>
+
+              <div class="contact-lines">
+                <div class="contact-line"><strong>Discord:</strong> 56.43</div>
+                <div class="contact-line"><strong>Timezone:</strong> GMT + 2</div>
+                <div class="contact-line"><strong>Availability:</strong> Open for commissions</div>
+              </div>
+
+              <div class="tag-row">
+                <span class="tag">Fast replies</span>
+                <span class="tag">Clear scope</span>
+                <span class="tag">Clean delivery</span>
+              </div>
+
+              <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+                <a href="#work" class="btn">View Work</a>
+              </div>
+
+              <div style="margin-top:18px;">
+                <button id="startProjectBtn" class="btn btn-primary" style="width:100%; text-align:center;">Start a Project</button>
+              </div>
+
+              <div class="cta-badge">Quick response on Discord</div>
+            </div>
+
+            <div class="contact-card reveal">
+              <h3>What to Include</h3>
+              <p>To make things easier, send:</p>
+              <div class="contact-lines">
+                <div class="contact-line">• what system or feature you want</div>
+                <div class="contact-line">• references if you have them</div>
+                <div class="contact-line">• your timeline if it matters</div>
+                <div class="contact-line">• budget if you want to include it</div>
+              </div>
+
+              <h3 style="margin-top:18px;">Typical Work</h3>
+              <div class="tag-row">
+                <span class="tag">Gameplay systems</span>
+                <span class="tag">UI systems</span>
+                <span class="tag">Economy and Data</span>
+                <span class="tag">Reworks</span>
+                <span class="tag">Optimization</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Aqua • Roblox Scripter</div>
+  </footer>
+
+  <div class="copy-toast" id="copyToast">Discord copied: 56.43</div>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="video-modal-card">
+      <button class="video-close" id="videoClose" type="button">✕</button>
+      <iframe id="videoModalFrame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const sections = document.querySelectorAll('section');
+    const links = document.querySelectorAll('.nav-link');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          links.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
+        }
+      });
+    }, { threshold: 0.45 });
+    sections.forEach((section) => navObserver.observe(section));
+
+    const hoverSrc = (id) => `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&modestbranding=1&playsinline=1&rel=0`;
+    const modalSrc = (id) => `https://www.youtube.com/embed/${id}?autoplay=1&controls=1&modestbranding=1&playsinline=1&rel=0`;
+
+    document.querySelectorAll('.work-card').forEach((card) => {
+      const videoId = card.dataset.videoId;
+      const frame = card.querySelector('.video-frame');
+      const media = card.querySelector('.work-media');
+
+      const playPreview = () => {
+        if (!videoId || frame.dataset.loaded) return;
+        frame.src = hoverSrc(videoId);
+        frame.dataset.loaded = 'true';
+        card.classList.add('playing');
+      };
+
+      const stopPreview = () => {
+        frame.src = '';
+        delete frame.dataset.loaded;
+        card.classList.remove('playing');
+      };
+
+      card.addEventListener('mouseenter', playPreview);
+      card.addEventListener('mouseleave', stopPreview);
+      media.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(videoId);
+      });
+    });
+
+    const modal = document.getElementById('videoModal');
+    const modalFrame = document.getElementById('videoModalFrame');
+    const closeBtn = document.getElementById('videoClose');
+
+    function openModal(id) {
+      modalFrame.src = modalSrc(id);
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      modalFrame.src = '';
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    const startProjectBtn = document.getElementById('startProjectBtn');
+    const copyToast = document.getElementById('copyToast');
+    let toastTimer;
+
+    async function copyDiscord() {
+      const discordUser = '56.43';
+      try {
+        await navigator.clipboard.writeText(discordUser);
+      } catch {
+        const helper = document.createElement('textarea');
+        helper.value = discordUser;
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand('copy');
+        helper.remove();
+      }
+
+      copyToast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => copyToast.classList.remove('show'), 1800);
+    }
+
+    startProjectBtn.addEventListener('click', copyDiscord);
+  </script>
+</body>
+</html>
