@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #070707;
+      --bg: #0a0a0a;
       --panel: rgba(255,255,255,0.04);
       --border: rgba(255,255,255,0.08);
       --text: #f5f5f5;
@@ -30,12 +30,16 @@
       background:
         radial-gradient(circle at 10% 10%, rgba(139,92,246,0.14), transparent 22%),
         radial-gradient(circle at 90% 20%, rgba(34,211,238,0.10), transparent 20%),
-        linear-gradient(180deg, #040404 0%, #070707 100%);
+        linear-gradient(180deg, #040404 0%, #0a0a0a 100%);
       overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
-    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .container {
+      width: min(var(--max), calc(100% - 28px));
+      margin: 0 auto;
+    }
 
     .bg-grid {
       position: fixed;
@@ -55,7 +59,7 @@
       top: 0;
       z-index: 50;
       backdrop-filter: blur(12px);
-      background: rgba(7,7,7,0.72);
+      background: rgba(10,10,10,0.72);
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
@@ -140,7 +144,7 @@
     .hero-inner {
       position: relative;
       z-index: 1;
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
     }
 
@@ -172,22 +176,22 @@
       letter-spacing: -2px;
     }
 
-    .type-line {
-      display: inline-block;
+    .type {
       overflow: hidden;
+      border-right: 2px solid white;
       white-space: nowrap;
       width: 0;
-      border-right: 2px solid rgba(255,255,255,0.85);
+      display: inline-block;
       vertical-align: bottom;
-      animation: aquaTyping 0.9s steps(4, end) forwards, aquaBlink 0.7s step-end infinite;
+      animation: typing 0.9s steps(4, end) forwards, blink 0.7s infinite;
     }
 
-    @keyframes aquaTyping {
+    @keyframes typing {
       from { width: 0; }
       to { width: 4ch; }
     }
 
-    @keyframes aquaBlink {
+    @keyframes blink {
       50% { border-color: transparent; }
     }
 
@@ -195,6 +199,7 @@
       color: #d4d4d8;
       font-size: 1rem;
       margin-bottom: 18px;
+      line-height: 1.6;
     }
 
     .subline span {
@@ -234,7 +239,9 @@
     }
 
     .btn:hover,
-    .mini-btn:hover { transform: translateY(-2px); }
+    .mini-btn:hover {
+      transform: translateY(-2px);
+    }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), #6d28d9);
@@ -248,11 +255,26 @@
       gap: 12px;
     }
 
-    .stat { padding: 16px; text-align: left; }
-    .stat h3 { margin: 0 0 6px; font-size: 1.05rem; }
-    .stat p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 0.92rem; }
+    .stat {
+      padding: 16px;
+      text-align: left;
+    }
 
-    .section { padding: 26px 0; }
+    .stat h3 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+    }
+
+    .stat p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .section {
+      padding: 26px 0;
+    }
 
     .panel {
       padding: 26px;
@@ -289,8 +311,13 @@
     }
 
     .grid-3,
-    .work-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
-    .contact-grid { grid-template-columns: 1.1fr 0.9fr; }
+    .work-grid {
+      grid-template-columns: repeat(3, minmax(0,1fr));
+    }
+
+    .contact-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
 
     .info-card,
     .contact-card,
@@ -328,24 +355,18 @@
       border-radius: 18px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
-      background:
-        linear-gradient(135deg, rgba(139,92,246,0.22), rgba(34,211,238,0.12)),
-        rgba(255,255,255,0.03);
+      background: linear-gradient(135deg, rgba(139,92,246,0.22), rgba(34,211,238,0.12)), rgba(255,255,255,0.03);
       cursor: pointer;
     }
 
-    .video-frame {
+    .video-local {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      border: 0;
-      opacity: 0;
-      transition: opacity 0.22s ease;
-      pointer-events: none;
+      object-fit: cover;
+      display: block;
     }
-
-    .work-card.playing .video-frame { opacity: 1; }
 
     .work-overlay {
       position: absolute;
@@ -355,9 +376,12 @@
       justify-content: center;
       background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.34));
       transition: opacity 0.22s ease;
+      pointer-events: none;
     }
 
-    .work-card.playing .work-overlay { opacity: 0.08; }
+    .work-media:hover .work-overlay {
+      opacity: 0.08;
+    }
 
     .play-badge {
       width: 54px;
@@ -455,55 +479,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .video-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      display: grid;
-      place-items: center;
-      background: rgba(0,0,0,0.84);
-      backdrop-filter: blur(14px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.28s ease;
-      padding: 18px;
-    }
-
-    .video-modal.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .video-modal-card {
-      width: min(1180px, 100%);
-      aspect-ratio: 16 / 9;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: #050505;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.55);
-      position: relative;
-      transform: translateY(12px) scale(0.985);
-      transition: transform 0.28s ease;
-    }
-
-    .video-modal.open .video-modal-card { transform: translateY(0) scale(1); }
-    .video-modal iframe { width: 100%; height: 100%; border: 0; }
-
-    .video-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      z-index: 2;
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.52);
-      color: white;
-      cursor: pointer;
-    }
-
     .reveal {
       opacity: 0;
       transform: translateY(32px);
@@ -538,10 +513,6 @@
       .panel {
         padding: 24px;
       }
-
-      .hero-subtitle {
-        flex-wrap: wrap;
-      }
     }
 
     @media (max-width: 700px) {
@@ -569,21 +540,9 @@
         font-size: clamp(2.5rem, 12vw, 3.5rem);
         letter-spacing: -1.8px;
       }
-      .type-line {
-        white-space: normal;
-        width: auto;
-        border-right: none;
-        animation: fadeUp 0.8s ease both;
-      }
-      .hero-subtitle {
-        gap: 8px;
-      }
-      .shuffle-wrap { width: 160px; }
       .hero-actions { flex-direction: column; }
       .hero-actions .btn { width: 100%; }
       .section-head h2 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
-      .video-modal { padding: 10px; }
-      .video-modal-card { border-radius: 16px; }
     }
 
     @media (max-width: 480px) {
@@ -592,7 +551,6 @@
       .nav-links a,
       .meta-pill { font-size: 0.8rem; }
       .play-badge { width: 48px; height: 48px; }
-      .shuffle-wrap { width: 150px; }
     }
   </style>
 </head>
@@ -618,7 +576,7 @@
     <div class="hero-card">
       <div class="hero-inner">
         <div class="eyebrow">Roblox Developer • Luau Specialist</div>
-        <h1><span class="type-line">Aqua</span></h1>
+        <h1><span class="type">Aqua</span></h1>
         <div class="subline">19 year old Roblox scripter <span>Luau systems</span> built to feel smooth and polished</div>
         <p class="hero-copy">
           I make Roblox systems that feel clean and good to use. Mostly gameplay stuff, UI logic, saving systems, economy features, and fixing old scripts that need to be cleaned up.
@@ -653,7 +611,7 @@
         <div class="panel">
           <div class="section-head">
             <h2>About</h2>
-            <p>A bit more about the kind of work I do.</p>
+            <p>A quick look at the kind of stuff I usually work on.</p>
           </div>
           <div class="grid-3">
             <div class="info-card reveal">
@@ -703,57 +661,52 @@
         <div class="panel">
           <div class="section-head">
             <h2>My Past Work</h2>
-            <p>Put your actual systems here with your real YouTube previews.</p>
+            <p>Real previews and examples of what I have worked on.</p>
           </div>
           <div class="work-grid">
-            <article class="work-card reveal" data-video-id="dQw4w9WgXcQ">
-              <div class="work-media">
-                <iframe class="video-frame" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <article class="work-card reveal">
+              <div class="work-media" id="localVideoCard">
+                <video class="video-local" id="localPreview" src="2026-04-15 23-04-40.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
-                <h3>Advanced System</h3>
-                <p>Good quality system built for smoother gameplay, solid performance, and a cleaner player experience.</p>
+                <h3>Tower Defence System</h3>
+                <p>This preview shows part of a tower defence system I worked on. Sorry if the video looks a bit laggy. The recording came out rough, but the actual system feels smoother in game.</p>
                 <div class="meta-row">
-                  <span class="meta-pill">Luau</span>
-                  <span class="meta-pill">System Design</span>
-                  <span class="meta-pill">UI Flow</span>
-                </div>
-                <a class="mini-btn" href="https://youtube.com/" target="_blank" rel="noreferrer">YouTube Link</a>
-              </div>
-            </article>
-
-            <article class="work-card reveal" data-video-id="dQw4w9WgXcQ">
-              <div class="work-media">
-                <iframe class="video-frame" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <div class="work-overlay"><div class="play-badge">▶</div></div>
-              </div>
-              <div class="work-body">
-                <h3>Advanced System</h3>
-                <p>Good quality system built for smoother gameplay, solid performance, and a cleaner player experience.</p>
-                <div class="meta-row">
-                  <span class="meta-pill">Optimization</span>
-                  <span class="meta-pill">Polish</span>
+                  <span class="meta-pill">Tower Defence</span>
                   <span class="meta-pill">Gameplay</span>
+                  <span class="meta-pill">Luau</span>
                 </div>
-                <a class="mini-btn" href="https://youtube.com/" target="_blank" rel="noreferrer">YouTube Link</a>
               </div>
             </article>
 
-            <article class="work-card reveal" data-video-id="dQw4w9WgXcQ">
+            <article class="work-card reveal">
               <div class="work-media">
-                <iframe class="video-frame" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
-                <h3>Advanced System</h3>
-                <p>Good quality system built for smoother gameplay, solid performance, and a cleaner player experience.</p>
+                <h3>System In Progress</h3>
+                <p>Currently working on another system. Will be added here soon with a proper preview and full breakdown.</p>
                 <div class="meta-row">
-                  <span class="meta-pill">DataStore</span>
-                  <span class="meta-pill">Roblox Studio</span>
-                  <span class="meta-pill">Performance</span>
+                  <span class="meta-pill">UI</span>
+                  <span class="meta-pill">System</span>
+                  <span class="meta-pill">Preview</span>
                 </div>
-                <a class="mini-btn" href="https://youtube.com/" target="_blank" rel="noreferrer">YouTube Link</a>
+              </div>
+            </article>
+
+            <article class="work-card reveal">
+              <div class="work-media">
+                <div class="work-overlay"><div class="play-badge">▶</div></div>
+              </div>
+              <div class="work-body">
+                <h3>System In Progress</h3>
+                <p>Currently working on another system. Will be added here soon with a proper preview and full
+                <div class="meta-row">
+                  <span class="meta-pill">Gameplay</span>
+                  <span class="meta-pill">Polish</span>
+                  <span class="meta-pill">Preview</span>
+                </div>
               </div>
             </article>
           </div>
@@ -766,7 +719,7 @@
         <div class="panel">
           <div class="section-head">
             <h2>Experience</h2>
-            <p>The kind of work I usually end up doing.</p>
+            <p>The kind of work people usually come to me for.</p>
           </div>
           <div class="grid-3">
             <div class="info-card reveal">
@@ -791,7 +744,7 @@
         <div class="panel">
           <div class="section-head">
             <h2>Workflow</h2>
-            <p>How I usually work on commissions.</p>
+            <p>How I usually handle commissions from start to finish.</p>
           </div>
           <div class="grid-3">
             <div class="info-card reveal">
@@ -816,7 +769,7 @@
         <div class="panel">
           <div class="section-head">
             <h2>Why Me</h2>
-            <p>What I try to do better than average scripting work.</p>
+            <p>What I usually focus on when I build things.</p>
           </div>
           <div class="grid-3">
             <div class="info-card reveal">
@@ -841,13 +794,13 @@
         <div class="panel">
           <div class="section-head">
             <h2>Start a Project</h2>
-            <p>If you want to work with me, send me the idea, references, and what you want made.</p>
+            <p>If you want to work with me, send me the idea, what you want made, and any references you have.</p>
           </div>
 
           <div class="contact-grid">
             <div class="contact-card reveal">
               <h3>Hire Aqua</h3>
-              <p>I take on systems, feature builds, reworks, and polish work. Main goal is clean code and a result that feels good in game.</p>
+              <p>I take on systems, feature builds, reworks, and cleanup work. Main thing I care about is making the final result feel right in game.</p>
 
               <div class="contact-lines">
                 <div class="contact-line"><strong>Discord:</strong> 56.43</div>
@@ -874,7 +827,7 @@
 
             <div class="contact-card reveal">
               <h3>What to Include</h3>
-              <p>To make things easier, send:</p>
+              <p>To make things easier, try to send:</p>
               <div class="contact-lines">
                 <div class="contact-line">• what system or feature you want</div>
                 <div class="contact-line">• references if you have them</div>
@@ -903,13 +856,6 @@
 
   <div class="copy-toast" id="copyToast">Discord copied: 56.43</div>
 
-  <div class="video-modal" id="videoModal" aria-hidden="true">
-    <div class="video-modal-card">
-      <button class="video-close" id="videoClose" type="button">✕</button>
-      <iframe id="videoModalFrame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-  </div>
-
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -933,60 +879,27 @@
     }, { threshold: 0.45 });
     sections.forEach((section) => navObserver.observe(section));
 
-    const hoverSrc = (id) => `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&modestbranding=1&playsinline=1&rel=0`;
-    const modalSrc = (id) => `https://www.youtube.com/embed/${id}?autoplay=1&controls=1&modestbranding=1&playsinline=1&rel=0`;
-
-    document.querySelectorAll('.work-card').forEach((card) => {
-      const videoId = card.dataset.videoId;
-      const frame = card.querySelector('.video-frame');
-      const media = card.querySelector('.work-media');
-
-      const playPreview = () => {
-        if (!videoId || frame.dataset.loaded) return;
-        frame.src = hoverSrc(videoId);
-        frame.dataset.loaded = 'true';
-        card.classList.add('playing');
-      };
-
-      const stopPreview = () => {
-        frame.src = '';
-        delete frame.dataset.loaded;
-        card.classList.remove('playing');
-      };
-
-      card.addEventListener('mouseenter', playPreview);
-      card.addEventListener('mouseleave', stopPreview);
-      media.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal(videoId);
+    const localPreview = document.getElementById('localPreview');
+    const localVideoCard = document.getElementById('localVideoCard');
+    if (localPreview && localVideoCard) {
+      localVideoCard.addEventListener('mouseenter', () => {
+        localPreview.play().catch(() => {});
       });
-    });
-
-    const modal = document.getElementById('videoModal');
-    const modalFrame = document.getElementById('videoModalFrame');
-    const closeBtn = document.getElementById('videoClose');
-
-    function openModal(id) {
-      modalFrame.src = modalSrc(id);
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      localVideoCard.addEventListener('mouseleave', () => {
+        localPreview.pause();
+        localPreview.currentTime = 0;
+      });
+      localVideoCard.addEventListener('click', () => {
+        if (localPreview.requestFullscreen) {
+          localPreview.requestFullscreen();
+        } else if (localPreview.webkitRequestFullscreen) {
+          localPreview.webkitRequestFullscreen();
+        } else if (localPreview.msRequestFullscreen) {
+          localPreview.msRequestFullscreen();
+        }
+        localPreview.play().catch(() => {});
+      });
     }
-
-    function closeModal() {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-      modalFrame.src = '';
-      document.body.style.overflow = '';
-    }
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
 
     const startProjectBtn = document.getElementById('startProjectBtn');
     const copyToast = document.getElementById('copyToast');
