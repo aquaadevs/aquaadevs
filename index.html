@@ -39,6 +39,8 @@
     .container {
       width: min(var(--max), calc(100% - 28px));
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .bg-grid {
@@ -368,6 +370,17 @@
       display: block;
     }
 
+    .video-placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      text-align: center;
+      padding: 20px;
+    }
+
     .work-overlay {
       position: absolute;
       inset: 0;
@@ -665,8 +678,8 @@
           </div>
           <div class="work-grid">
             <article class="work-card reveal">
-              <div class="work-media" id="localVideoCard">
-                <video class="video-local" id="localPreview" src="video1.mp4" muted loop playsinline preload="metadata"></video>
+              <div class="work-media" id="videoCard1">
+                <video class="video-local" id="video1" src="video1.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
@@ -681,32 +694,33 @@
             </article>
 
             <article class="work-card reveal">
-              <div class="work-media" id="localVideoCard2">
-                <video class="video-local" id="localPreview2" src="video2.mp4" muted loop playsinline preload="metadata"></video>
+              <div class="work-media" id="videoCard2">
+                <video class="video-local" id="video2" src="video2.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
                 <h3>Inventory System</h3>
                 <p>This is an inventory system I made. It includes dropping blocks that can be sold to buy inventory upgrades. It also has a data store, economy system, and a custom inventory that opens when the player clicks.</p>
                 <div class="meta-row">
-                  <span class="meta-pill">Gameplay</span>
-                  <span class="meta-pill">Systems</span>
-                  <span class="meta-pill">Luau</span>
+                  <span class="meta-pill">Inventory</span>
+                  <span class="meta-pill">Economy</span>
+                  <span class="meta-pill">DataStore</span>
                 </div>
               </div>
             </article>
 
             <article class="work-card reveal">
               <div class="work-media">
+                <div class="video-placeholder">Add another preview here later</div>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
-                <h3>System In Progress</h3>
-                <p>Currently working on another system. Will be added here soon with a proper preview and full breakdown.</p>
+                <h3>Future System</h3>
+                <p>This slot is here for another system preview when I add one later.</p>
                 <div class="meta-row">
-                  <span class="meta-pill">Gameplay</span>
-                  <span class="meta-pill">Polish</span>
                   <span class="meta-pill">Preview</span>
+                  <span class="meta-pill">Gameplay</span>
+                  <span class="meta-pill">System</span>
                 </div>
               </div>
             </article>
@@ -880,54 +894,34 @@
     }, { threshold: 0.45 });
     sections.forEach((section) => navObserver.observe(section));
 
-    const localPreview = document.getElementById('localPreview');
-    const localVideoCard = document.getElementById('localVideoCard');
-    if (localPreview && localVideoCard) {
-      localVideoCard.addEventListener('mouseenter', () => {
-        localPreview.play().catch(() => {});
-      });
-      localVideoCard.addEventListener('mouseleave', () => {
-        localPreview.pause();
-        localPreview.currentTime = 0;
-      });
-      localVideoCard.addEventListener('click', () => {
-        if (localPreview.requestFullscreen) localPreview.requestFullscreen();
-        localPreview.play().catch(() => {});
-      });
-    }
+    function setupVideo(cardId, videoId) {
+      const card = document.getElementById(cardId);
+      const video = document.getElementById(videoId);
+      if (!card || !video) return;
 
-    const localPreview2 = document.getElementById('localPreview2');
-    const localVideoCard2 = document.getElementById('localVideoCard2');
+      card.addEventListener('mouseenter', () => {
+        video.play().catch(() => {});
+      });
 
-    if (localPreview2 && localVideoCard2) {
-      localVideoCard2.addEventListener('mouseenter', () => {
-        localPreview2.play().catch(() => {});
+      card.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = 0;
       });
-      localVideoCard2.addEventListener('mouseleave', () => {
-        localPreview2.pause();
-        localPreview2.currentTime = 0;
-      });
-      localVideoCard2.addEventListener('click', () => {
-        if (localPreview2.requestFullscreen) localPreview2.requestFullscreen();
-        localPreview2.play().catch(() => {});
-      });
-    });
-      });
-      localVideoCard.addEventListener('mouseleave', () => {
-        localPreview.pause();
-        localPreview.currentTime = 0;
-      });
-      localVideoCard.addEventListener('click', () => {
-        if (localPreview.requestFullscreen) {
-          localPreview.requestFullscreen();
-        } else if (localPreview.webkitRequestFullscreen) {
-          localPreview.webkitRequestFullscreen();
-        } else if (localPreview.msRequestFullscreen) {
-          localPreview.msRequestFullscreen();
+
+      card.addEventListener('click', () => {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
         }
-        localPreview.play().catch(() => {});
+        video.play().catch(() => {});
       });
     }
+
+    setupVideo('videoCard1', 'video1');
+    setupVideo('videoCard2', 'video2');
 
     const startProjectBtn = document.getElementById('startProjectBtn');
     const copyToast = document.getElementById('copyToast');
