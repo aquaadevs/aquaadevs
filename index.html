@@ -666,7 +666,7 @@
           <div class="work-grid">
             <article class="work-card reveal">
               <div class="work-media" id="localVideoCard">
-                <video class="video-local" id="localPreview" src="2026-04-15 23-04-40.mp4" muted loop playsinline preload="metadata"></video>
+                <video class="video-local" id="localPreview" src="video1.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
@@ -681,16 +681,17 @@
             </article>
 
             <article class="work-card reveal">
-              <div class="work-media">
+              <div class="work-media" id="localVideoCard2">
+                <video class="video-local" id="localPreview2" src="video2.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
-                <h3>System In Progress</h3>
-                <p>Currently working on another system. Will be added here soon with a proper preview and full breakdown.</p>
+                <h3>Inventory System</h3>
+                <p>This is an inventory system I made. It includes dropping blocks that can be sold to buy inventory upgrades. It also has a data store, economy system, and a custom inventory that opens when the player clicks.</p>
                 <div class="meta-row">
-                  <span class="meta-pill">UI</span>
-                  <span class="meta-pill">System</span>
-                  <span class="meta-pill">Preview</span>
+                  <span class="meta-pill">Gameplay</span>
+                  <span class="meta-pill">Systems</span>
+                  <span class="meta-pill">Luau</span>
                 </div>
               </div>
             </article>
@@ -701,7 +702,7 @@
               </div>
               <div class="work-body">
                 <h3>System In Progress</h3>
-                <p>Currently working on another system. Will be added here soon with a proper preview and full
+                <p>Currently working on another system. Will be added here soon with a proper preview and full breakdown.</p>
                 <div class="meta-row">
                   <span class="meta-pill">Gameplay</span>
                   <span class="meta-pill">Polish</span>
@@ -884,6 +885,33 @@
     if (localPreview && localVideoCard) {
       localVideoCard.addEventListener('mouseenter', () => {
         localPreview.play().catch(() => {});
+      });
+      localVideoCard.addEventListener('mouseleave', () => {
+        localPreview.pause();
+        localPreview.currentTime = 0;
+      });
+      localVideoCard.addEventListener('click', () => {
+        if (localPreview.requestFullscreen) localPreview.requestFullscreen();
+        localPreview.play().catch(() => {});
+      });
+    }
+
+    const localPreview2 = document.getElementById('localPreview2');
+    const localVideoCard2 = document.getElementById('localVideoCard2');
+
+    if (localPreview2 && localVideoCard2) {
+      localVideoCard2.addEventListener('mouseenter', () => {
+        localPreview2.play().catch(() => {});
+      });
+      localVideoCard2.addEventListener('mouseleave', () => {
+        localPreview2.pause();
+        localPreview2.currentTime = 0;
+      });
+      localVideoCard2.addEventListener('click', () => {
+        if (localPreview2.requestFullscreen) localPreview2.requestFullscreen();
+        localPreview2.play().catch(() => {});
+      });
+    });
       });
       localVideoCard.addEventListener('mouseleave', () => {
         localPreview.pause();
