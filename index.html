@@ -710,17 +710,17 @@
             </article>
 
             <article class="work-card reveal">
-              <div class="work-media">
-                <div class="video-placeholder">Add another preview here later</div>
+              <div class="work-media" id="videoCard3">
+                <video class="video-local" id="video3" src="video3.mp4" muted loop playsinline preload="auto"></video>
                 <div class="work-overlay"><div class="play-badge">▶</div></div>
               </div>
               <div class="work-body">
-                <h3>Future System</h3>
-                <p>This slot is here for another system preview when I add one later.</p>
+                <h3>Quest System</h3>
+                <p>This is a quest system I made that gives players clear objectives to complete and rewards them when they finish. It helps progression feel more natural, keeps players working toward something, and is set up in a way that makes adding more quests later a lot easier.</p>
                 <div class="meta-row">
-                  <span class="meta-pill">Preview</span>
-                  <span class="meta-pill">Gameplay</span>
-                  <span class="meta-pill">System</span>
+                  <span class="meta-pill">Quests</span>
+                  <span class="meta-pill">Rewards</span>
+                  <span class="meta-pill">Progression</span>
                 </div>
               </div>
             </article>
@@ -922,6 +922,7 @@
 
     setupVideo('videoCard1', 'video1');
     setupVideo('videoCard2', 'video2');
+    setupVideo('videoCard3', 'video3');
 
     const startProjectBtn = document.getElementById('startProjectBtn');
     const copyToast = document.getElementById('copyToast');
