@@ -361,6 +361,20 @@
       cursor: pointer;
     }
 
+    .game-link {
+      display: block;
+    }
+
+    .game-thumb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, rgba(139,92,246,0.22), rgba(34,211,238,0.12)), rgba(255,255,255,0.03);
+    }
+
     .video-local {
       position: absolute;
       inset: 0;
@@ -580,6 +594,7 @@
         <a href="#about" class="nav-link">About</a>
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#work" class="nav-link">My Past Work</a>
+        <a href="#games" class="nav-link">Games</a>
         <a href="#contact" class="nav-link">Contact</a>
       </div>
     </div>
@@ -721,6 +736,38 @@
                   <span class="meta-pill">Quests</span>
                   <span class="meta-pill">Rewards</span>
                   <span class="meta-pill">Progression</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="games" class="section reveal">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>Games I Contributed To</h2>
+            <p>Released Roblox games I helped work on.</p>
+          </div>
+          <div class="work-grid">
+            <article class="work-card reveal">
+              <a href="https://www.roblox.com/games/102013113771627/Jump-For-Car-Lucky-Blocks" target="_blank" rel="noopener noreferrer" class="game-link">
+                <div class="work-media">
+                  <img class="game-thumb" id="gameThumb1" src="jump-for-car-lucky-blocks-banner.png" alt="Jump For Car Lucky Blocks banner" loading="lazy" />
+                  <div class="work-overlay"><div class="play-badge">↗</div></div>
+                </div>
+              </a>
+              <div class="work-body">
+                <h3>Jump For Car Lucky Blocks</h3>
+                <p>I helped make the core systems for this game, UI scripting, bug fixing, and making the gameplay feel smooth and more polished overall.</p>
+                <div class="meta-row">
+                  <span class="meta-pill">Live Game</span>
+                  <span class="meta-pill" id="gameVisits1">15k+ visits</span>
+                </div>
+                <div style="margin-top:10px;">
+                  <a href="https://www.roblox.com/games/102013113771627/Jump-For-Car-Lucky-Blocks" target="_blank" rel="noopener noreferrer" class="mini-btn">Visit on Roblox ↗</a>
                 </div>
               </div>
             </article>
